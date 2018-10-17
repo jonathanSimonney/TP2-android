@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setToolbarTitle() {
         val myToolbar = findViewById<View>(R.id.z_toolbar) as Toolbar
-        myToolbar.title = "Actualités"
+        myToolbar.title = resources.getString(R.string.news)
         setSupportActionBar(myToolbar)
     }
 }
