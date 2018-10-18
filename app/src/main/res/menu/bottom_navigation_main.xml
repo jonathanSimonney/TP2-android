@@ -20,13 +20,13 @@
         android:title="@string/books"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/club_igen"
+        android:id="@+id/action_club_igen"
         android:enabled="true"
         android:icon="@drawable/club_igen_icon"
         android:title="@string/club_igen"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/settings"
+        android:id="@+id/action_settings"
         android:enabled="true"
         android:icon="@drawable/settings_icon"
         android:title="@string/settings"

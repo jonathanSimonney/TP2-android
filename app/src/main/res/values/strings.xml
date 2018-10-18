@@ -5,4 +5,9 @@
     <string name="books">Livres</string>
     <string name="club_igen">Club iGen</string>
     <string name="settings">Réglages</string>
+    <string name="news_fragment">fragment d\'actus</string>
+    <string name="forum_fragment">fragment de forum</string>
+    <string name="books_fragment">fragment de livres</string>
+    <string name="club_igen_fragment">fragment de club igen</string>
+    <string name="settings_fragment">fragment de réglages</string>
 </resources>
