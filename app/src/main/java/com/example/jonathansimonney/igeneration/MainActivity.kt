@@ -14,13 +14,32 @@ import com.example.jonathansimonney.igeneration.R.id.index
 
 class MainActivity : AppCompatActivity() {
 
+    data class Tab(val title :String, val fragment: Fragment)
+
+    var tabHashMap :HashMap<String, Tab> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setToolbarTitle()
-        setFragment(NewsFragment.newInstance())
+        setTabsData()
+
+        setCurrentTab("news")
         setMenuListener()
+    }
+
+    private fun setTabsData(){
+        tabHashMap["books"] = Tab(resources.getString(R.string.books), BooksFragment.newInstance())
+        tabHashMap["news"] = Tab(resources.getString(R.string.news), NewsFragment.newInstance())
+        tabHashMap["forum"] = Tab(resources.getString(R.string.forum), ForumFragment.newInstance())
+        tabHashMap["club_igen"] = Tab(resources.getString(R.string.club_igen), ClubIgenFragment.newInstance())
+        tabHashMap["settings"] = Tab(resources.getString(R.string.settings), SettingsFragment.newInstance())
+    }
+
+    private fun setCurrentTab(newTabIndex :String){
+        val newTab = tabHashMap[newTabIndex] ?: Tab(resources.getString(R.string.news), NewsFragment.newInstance())
+        setFragment(newTab.fragment)
+        setToolbarTitle(newTab.title)
     }
 
     private fun setFragment(fragment :Fragment) {
@@ -31,9 +50,9 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    private fun setToolbarTitle() {
-        val myToolbar = findViewById<View>(R.id.z_toolbar) as Toolbar
-        myToolbar.title = resources.getString(R.string.news)
+    private fun setToolbarTitle(newTitle :String) {
+        val myToolbar = findViewById<Toolbar>(R.id.z_toolbar)
+        myToolbar.title = newTitle
         setSupportActionBar(myToolbar)
     }
 
@@ -41,11 +60,11 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId){
-                R.id.action_news -> setFragment(NewsFragment.newInstance())
-                R.id.action_books -> setFragment(BooksFragment.newInstance())
-                R.id.action_forum -> setFragment(ForumFragment.newInstance())
-                R.id.action_club_igen -> setFragment(ClubIgenFragment.newInstance())
-                R.id.action_settings -> setFragment(SettingsFragment.newInstance())
+                R.id.action_news -> setCurrentTab("news")
+                R.id.action_books -> setCurrentTab("books")
+                R.id.action_forum -> setCurrentTab("forum")
+                R.id.action_club_igen -> setCurrentTab("club_igen")
+                R.id.action_settings -> setCurrentTab("settings")
             }
             true
         }
