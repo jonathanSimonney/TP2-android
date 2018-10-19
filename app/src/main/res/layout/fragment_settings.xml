@@ -5,12 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/index"
-        android:layout_centerInParent="true"
-        android:text="@string/settings_fragment"
-        />
+    <android.support.v7.widget.ContentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myPreferenceFragmentContainer"
+        ></android.support.v7.widget.ContentFrameLayout>
 
 </RelativeLayout>

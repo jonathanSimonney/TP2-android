@@ -10,4 +10,7 @@
     <string name="books_fragment">fragment of books</string>
     <string name="club_igen_fragment">fragment of club igen</string>
     <string name="settings_fragment">fragment of settings</string>
+    <string name="main">main</string>
+    <string name="notification">Notifications</string>
+    <string name="notifications_preference">notifications preference</string>
 </resources>

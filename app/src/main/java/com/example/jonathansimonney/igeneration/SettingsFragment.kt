@@ -30,14 +30,20 @@ class SettingsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            stringResource = it.getString(stringResource)
+            //            stringResource = it.getString(stringResource)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
 
+
+        val fragmentManager = fragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+
+        fragmentTransaction?.replace(R.id.myPreferenceFragmentContainer, SettingsPreferenceFragment.newInstance())
+        fragmentTransaction?.commit()
+// Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -48,14 +54,14 @@ class SettingsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
+         * @return A new instance of fragment NewsFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
                 SettingsFragment().apply {
                     arguments = Bundle().apply {
-//                        putString(stringResource, param1)
+                        //                        putString(stringResource, param1)
                     }
                 }
     }
