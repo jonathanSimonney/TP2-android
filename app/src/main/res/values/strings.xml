@@ -13,4 +13,8 @@
     <string name="main">Général</string>
     <string name="notification">Notifications</string>
     <string name="notifications_preference">préférences de notifications</string>
+    <string name="help_me">Assistance</string>
+    <string name="contact_us">nous contacter</string>
+    <string name="legal">Mentions légales</string>
+    <string name="website">Siteweb</string>
 </resources>
