@@ -36,7 +36,7 @@
             android:key="contact_us"
             android:title="@string/contact_us">
             <intent android:action="android.intent.action.VIEW"
-                android:data="http://www.android.com" />
+                android:data="mailto:redaction@mgig.fr" />
 
         </PreferenceScreen>
 
