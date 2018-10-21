@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.R.xml
-
-
+import android.support.customtabs.CustomTabsIntent
+import android.support.v7.preference.Preference
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -39,6 +39,21 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences, rootKey)
+        setPreferencesListener()
+    }
+
+    private fun setPreferencesListener(){
+        val legalPref = findPreference("legal") as Preference
+        legalPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            this.openCustomTab("https://www.google.fr")
+            true
+        }
+    }
+
+    private fun openCustomTab(url :String){
+        val builder = CustomTabsIntent.Builder()
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(activity, Uri.parse(url))
     }
 
     companion object {
