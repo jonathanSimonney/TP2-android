@@ -43,6 +43,20 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
     }
 
     private fun setPreferencesListener(){
+        setLegalPrefListener()
+        setWebsitePrefListener()
+    }
+
+    private fun setWebsitePrefListener(){
+        val websitePref = findPreference("website") as Preference
+        websitePref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+            val corrActivity = activity as MainActivity
+            corrActivity.changeTab("club_igen")
+            true
+        }
+    }
+
+    private fun setLegalPrefListener(){
         val legalPref = findPreference("legal") as Preference
         legalPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             this.openCustomTab("https://www.google.fr")

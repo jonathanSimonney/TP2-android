@@ -22,13 +22,10 @@
 
         </Preference>
 
-        <PreferenceScreen
+        <Preference
             android:key="website"
             android:title="@string/website">
-            <intent android:action="android.intent.action.VIEW"
-                android:data="http://www.android.com" />
-
-        </PreferenceScreen>
+        </Preference>
 
         <PreferenceScreen
             android:key="contact_us"
