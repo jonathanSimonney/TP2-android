@@ -9,7 +9,7 @@ import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.example.jonathansimonney.igeneration.R.id.index
-
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     fun changeTab(newTabIndex :String){
         val newTab = setCurrentTab(newTabIndex)
-        findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = newTab.menuId
+        bottom_navigation.selectedItemId = newTab.menuId
     }
 
     private fun setTabsData(){
@@ -57,14 +57,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setToolbarTitle(newTitle :String) {
-        val myToolbar = findViewById<Toolbar>(R.id.z_toolbar)
-        myToolbar.title = newTitle
-        setSupportActionBar(myToolbar)
+        z_toolbar.title = newTitle
+        setSupportActionBar(z_toolbar)
     }
 
     private fun setMenuListener(){
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId){
                 R.id.action_news -> setCurrentTab("news")
                 R.id.action_books -> setCurrentTab("books")

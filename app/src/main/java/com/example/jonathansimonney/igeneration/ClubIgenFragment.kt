@@ -10,8 +10,7 @@ import android.view.ViewGroup
 import android.webkit.WebViewClient
 import android.webkit.WebSettings
 import android.webkit.WebView
-
-
+import kotlinx.android.synthetic.main.fragment_club_igen.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,18 +42,18 @@ class ClubIgenFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        val v = inflater.inflate(R.layout.fragment_club_igen, container, false)
-        setFragmentWebView(v)
-
-        return v
+        return inflater.inflate(R.layout.fragment_club_igen, container, false)
     }
 
-    private fun setFragmentWebView(v: View) {
-        val mWebView = v.findViewById(R.id.webview) as WebView
-        mWebView.loadUrl("https://www.igen.fr")
+    private fun setFragmentWebView() {
+        webview.loadUrl("https://www.igen.fr")
 
         // Force links and redirects to open in the WebView instead of in a browser
-        mWebView.webViewClient = WebViewClient()
+        webview.webViewClient = WebViewClient()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setFragmentWebView()
     }
 
     companion object {
