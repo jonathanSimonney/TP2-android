@@ -17,4 +17,5 @@
     <string name="contact_us">nous contacter</string>
     <string name="legal">Mentions légales</string>
     <string name="website">Siteweb</string>
+    <string name="title_activity_news_detail">newsDetail</string>
 </resources>

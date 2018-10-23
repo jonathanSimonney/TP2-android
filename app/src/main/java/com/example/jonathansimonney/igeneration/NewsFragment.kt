@@ -1,6 +1,8 @@
 package com.example.jonathansimonney.igeneration
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -28,6 +30,8 @@ class NewsFragment : Fragment() {
     // TODO: Rename and change types of parameters
 //    private var stringResource: String? = null
 
+    val NEED_REFRESH = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -46,6 +50,18 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         stopRefreshButton.setOnClickListener {
             refreshingSwipe.isRefreshing = false
+        }
+
+        openDetail.setOnClickListener {
+            startActivityForResult(Intent(context, NewsDetailActivity::class.java), NEED_REFRESH)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == NEED_REFRESH){
+            if (resultCode == Activity.RESULT_OK){
+                stopRefreshButton.text = data?.getStringExtra("from")
+            }
         }
     }
 
