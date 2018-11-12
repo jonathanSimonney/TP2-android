@@ -6,10 +6,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_news.*
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
 
@@ -42,6 +44,16 @@ class NewsFragment : Fragment() {
         }
     }
 
+
+    private fun setRecyclerView(){
+        val mRecyclerView = my_recycler_news_view
+        mRecyclerView.setHasFixedSize(true)
+        val mLayoutManager = LinearLayoutManager(context)
+        mRecyclerView.layoutManager = mLayoutManager
+        val mAdapter = ListAdapter(this.news)
+        mRecyclerView.adapter = mAdapter
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -50,18 +62,28 @@ class NewsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setRecyclerView()
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun createFakeNews(howMany :Int): List<News>{
         val titles = arrayListOf<String>("les français favorables à l'immigration",
-                "l'écart de saliare homme femme expliqué uniquement par les discriminations sexistes",
+                "l'écart de salaire homme femme expliqué uniquement par les discriminations sexistes",
                 "la justice complètement impartiale dans ses poursuites d'hommes politiques")
 
         val authors = arrayListOf<String>("Anthony", "Florent", "Chloé", "Cécile", "Antoine", "Jonathan", "Nathaël")
-        val dates = arrayListOf<LocalDate>(LocalDate.of( 1985 , 1 , 1 ),
-                LocalDate.of( 1885 , 5 , 1 ),
-                LocalDate.of( 2015 , 1 , 13 ))
+
+        val calendar1 = Calendar.getInstance()
+        val calendar2 = Calendar.getInstance()
+        val calendar3 = Calendar.getInstance()
+
+        calendar1.add(Calendar.DAY_OF_MONTH, -1)
+        calendar2.add(Calendar.DAY_OF_MONTH, -3)
+        calendar3.add(Calendar.DAY_OF_MONTH, -9)
+        val dates = arrayListOf<Long>(calendar1.timeInMillis,
+                calendar2.timeInMillis,
+                calendar3.timeInMillis
+        )
 
         val ret = ArrayList<News>()
         val randomizer = Random()
