@@ -13,8 +13,11 @@ import kotlinx.android.synthetic.main.activity_news_detail.*
 
 class ListAdapter// Provide a suitable constructor (depends on the kind of dataset)
 (private val mDataset: List<News>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val DEFAULT_VIEW_TYPE = 1
+    private val TITLE_VIEW_TYPE = 0
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder.itemViewType != 0){
+        if (holder.itemViewType == DEFAULT_VIEW_TYPE){
             val convertedHolder = holder as DefaultViewHolder
             convertedHolder.listText.text = mDataset[position - 1].title
         }
@@ -48,8 +51,7 @@ class ListAdapter// Provide a suitable constructor (depends on the kind of datas
     override fun onCreateViewHolder(parent: ViewGroup,
                                     viewType: Int): RecyclerView.ViewHolder {
         val layoutId :Int
-        val ViewHolder :RecyclerView.ViewHolder
-        if (viewType == 0){
+        if (viewType == TITLE_VIEW_TYPE){
             layoutId = R.layout.activity_news_title
             val v = LayoutInflater.from(parent.context)
                     .inflate(layoutId, parent, false)
@@ -71,8 +73,8 @@ class ListAdapter// Provide a suitable constructor (depends on the kind of datas
 
     override fun getItemViewType(position: Int): Int {
         if (position == 0){
-            return 0
+            return TITLE_VIEW_TYPE
         }
-        return 1
+        return DEFAULT_VIEW_TYPE
     }
 }
