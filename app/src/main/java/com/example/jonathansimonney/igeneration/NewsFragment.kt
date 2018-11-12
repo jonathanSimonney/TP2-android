@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_news.*
+import java.time.LocalDate
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,10 +32,11 @@ class NewsFragment : Fragment() {
     // TODO: Rename and change types of parameters
 //    private var stringResource: String? = null
 
-    val NEED_REFRESH = 1
+    private lateinit var news: List<News>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.news = createFakeNews(20)
         arguments?.let {
 //            stringResource = it.getString(stringResource)
         }
@@ -48,21 +51,27 @@ class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        stopRefreshButton.setOnClickListener {
-            refreshingSwipe.isRefreshing = false
-        }
-
-        openDetail.setOnClickListener {
-            startActivityForResult(Intent(context, NewsDetailActivity::class.java), NEED_REFRESH)
-        }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == NEED_REFRESH){
-            if (resultCode == Activity.RESULT_OK){
-                stopRefreshButton.text = data?.getStringExtra("from")
-            }
+    private fun createFakeNews(howMany :Int): List<News>{
+        val titles = arrayListOf<String>("les français favorables à l'immigration",
+                "l'écart de saliare homme femme expliqué uniquement par les discriminations sexistes",
+                "la justice complètement impartiale dans ses poursuites d'hommes politiques")
+
+        val authors = arrayListOf<String>("Anthony", "Florent", "Chloé", "Cécile", "Antoine", "Jonathan", "Nathaël")
+        val dates = arrayListOf<LocalDate>(LocalDate.of( 1985 , 1 , 1 ),
+                LocalDate.of( 1885 , 5 , 1 ),
+                LocalDate.of( 2015 , 1 , 13 ))
+
+        val ret = ArrayList<News>()
+        val randomizer = Random()
+        for (i in 1..howMany){
+            ret.add(
+                    News(titles[randomizer.nextInt(titles.size)], authors[randomizer.nextInt(authors.size)], dates[randomizer.nextInt(dates.size)])
+            )
         }
+
+        return ret
     }
 
     companion object {
