@@ -7,9 +7,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_news.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -34,11 +40,8 @@ class NewsFragment : Fragment() {
     // TODO: Rename and change types of parameters
 //    private var stringResource: String? = null
 
-    private lateinit var news: List<News>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.news = createFakeNews(20)
         arguments?.let {
 //            stringResource = it.getString(stringResource)
         }
@@ -50,8 +53,9 @@ class NewsFragment : Fragment() {
         mRecyclerView.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(context)
         mRecyclerView.layoutManager = mLayoutManager
-        val mAdapter = ListAdapter(this.news)
-        mRecyclerView.adapter = mAdapter
+        loadFakeNewsFromDb(mRecyclerView)
+//        val mAdapter = ListAdapter(this.news)
+//        mRecyclerView.adapter = mAdapter
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -66,34 +70,40 @@ class NewsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun createFakeNews(howMany :Int): List<News>{
-        val titles = arrayListOf<String>("les français favorables à l'immigration",
-                "l'écart de salaire homme femme expliqué uniquement par les discriminations sexistes",
-                "la justice complètement impartiale dans ses poursuites d'hommes politiques")
+    private fun loadFakeNewsFromDb(targetRecyclerView: RecyclerView){
+        val database = FirebaseDatabase.getInstance()
 
-        val authors = arrayListOf<String>("Anthony", "Florent", "Chloé", "Cécile", "Antoine", "Jonathan", "Nathaël")
 
-        val calendar1 = Calendar.getInstance()
-        val calendar2 = Calendar.getInstance()
-        val calendar3 = Calendar.getInstance()
+        val listener = object: ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val ret = ArrayList<News>()
 
-        calendar1.add(Calendar.DAY_OF_MONTH, -1)
-        calendar2.add(Calendar.DAY_OF_MONTH, -3)
-        calendar3.add(Calendar.DAY_OF_MONTH, -9)
-        val dates = arrayListOf<Long>(calendar1.timeInMillis,
-                calendar2.timeInMillis,
-                calendar3.timeInMillis
-        )
+                for(news in dataSnapshot.children) {
+                    val title = news.child("title").getValue(String::class.java)
+                    val author = news.child("author").getValue(String::class.java)
+                    val date = news.child("date").getValue(String::class.java)
 
-        val ret = ArrayList<News>()
-        val randomizer = Random()
-        for (i in 1..howMany){
-            ret.add(
-                    News(titles[randomizer.nextInt(titles.size)], authors[randomizer.nextInt(authors.size)], dates[randomizer.nextInt(dates.size)])
-            )
+                    val cal = Calendar.getInstance()
+                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE)
+                    cal.time = sdf.parse(date)// all done
+
+                    val convertedDate = cal.timeInMillis
+
+                    if (title != null && author != null && date != null){
+                        ret.add(News(title, author, convertedDate))
+                    }
+                }
+
+                val mAdapter = ListAdapter(ret)
+                targetRecyclerView.adapter = mAdapter
+            }
+
+            override fun onCancelled(dbErr: DatabaseError) {
+                Log.e("warning", "database error ${dbErr.message}")
+            }
         }
 
-        return ret
+        database.getReference("news").addValueEventListener(listener)
     }
 
     companion object {
