@@ -96,6 +96,8 @@ class NewsFragment : Fragment() {
 
                 val mAdapter = ListAdapter(ret)
                 targetRecyclerView.adapter = mAdapter
+
+                data_loading.visibility = View.GONE
             }
 
             override fun onCancelled(dbErr: DatabaseError) {
