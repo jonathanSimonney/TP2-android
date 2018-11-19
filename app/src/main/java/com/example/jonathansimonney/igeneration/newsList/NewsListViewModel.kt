@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel
 class NewsListViewModel : ViewModel() {
     private var newsList :LiveData<List<News>>? = null
 
-    public fun getNews() :LiveData<List<News>>{
+    fun getNews() :LiveData<List<News>>{
         if (newsList == null){
             newsList = NewsListLiveData()
         }
