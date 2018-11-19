@@ -1,14 +1,11 @@
-package com.example.jonathansimonney.igeneration
+package com.example.jonathansimonney.igeneration.newsList
 
-import android.support.v4.content.ContextCompat.startActivity
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import android.support.v7.widget.RecyclerView
-import android.text.Layout
 import android.view.View
-import kotlinx.android.synthetic.main.activity_news_detail.*
+import com.example.jonathansimonney.igeneration.R
 
 
 class ListAdapter// Provide a suitable constructor (depends on the kind of dataset)

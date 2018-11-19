@@ -1,14 +1,9 @@
 package com.example.jonathansimonney.igeneration
 
-import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v7.view.menu.MenuView
-import android.support.v7.widget.Toolbar
-import android.view.View
-import com.example.jonathansimonney.igeneration.R.id.index
+import com.example.jonathansimonney.igeneration.newsList.NewsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
