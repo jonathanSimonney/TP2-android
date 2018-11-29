@@ -9,14 +9,19 @@ import com.example.jonathansimonney.igeneration.R
 
 
 class ListAdapter// Provide a suitable constructor (depends on the kind of dataset)
-(private val mDataset: List<News>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+(private val mDataset: List<News>,
+ private var listener: OnNewsItemClickListener?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val DEFAULT_VIEW_TYPE = 1
     private val TITLE_VIEW_TYPE = 0
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.itemViewType == DEFAULT_VIEW_TYPE){
             val convertedHolder = holder as DefaultViewHolder
-            convertedHolder.listText.text = mDataset[position - 1].title
+            val new = mDataset[position - 1]
+            convertedHolder.listText.text = new.title
+
+            convertedHolder.itemView.setOnClickListener { listener?.onNewsClicked(new) }
+
         }
     }
 
@@ -73,5 +78,9 @@ class ListAdapter// Provide a suitable constructor (depends on the kind of datas
             return TITLE_VIEW_TYPE
         }
         return DEFAULT_VIEW_TYPE
+    }
+
+    interface OnNewsItemClickListener {
+        fun onNewsClicked(news: News)
     }
 }

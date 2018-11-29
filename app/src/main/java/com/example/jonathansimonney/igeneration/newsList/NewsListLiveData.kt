@@ -24,6 +24,7 @@ class NewsListLiveData : MutableLiveData<List<News>>() {
                     val title = news.child("title").getValue(String::class.java)
                     val author = news.child("author").getValue(String::class.java)
                     val date = news.child("date").getValue(String::class.java)
+                    val link = news.child("link").getValue(String::class.java)
 
                     val cal = Calendar.getInstance()
                     val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE)
@@ -31,8 +32,8 @@ class NewsListLiveData : MutableLiveData<List<News>>() {
 
                     val convertedDate = cal.timeInMillis
 
-                    if (title != null && author != null && date != null){
-                        ret.add(News(title, author, convertedDate))
+                    if (title != null && author != null && date != null && link != null){
+                        ret.add(News(title, author, convertedDate, link))
                     }
                 }
 

@@ -2,6 +2,8 @@ package com.example.jonathansimonney.igeneration.newsList
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -27,7 +29,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  *
  */
-class NewsFragment : Fragment() {
+class NewsFragment : Fragment(), ListAdapter.OnNewsItemClickListener {
     // TODO: Rename and change types of parameters
 //    private var stringResource: String? = null
 
@@ -66,7 +68,7 @@ class NewsFragment : Fragment() {
 
         vm.getNews().observe(this, Observer<List<News>>{
             if (it != null){
-                val mAdapter = ListAdapter(it)
+                val mAdapter = ListAdapter(it, this)
                 targetRecyclerView.adapter = mAdapter
 
                 data_loading.visibility = View.GONE
@@ -93,5 +95,11 @@ class NewsFragment : Fragment() {
 //                        putString(stringResource, param1)
                     }
                 }
+    }
+
+    override fun onNewsClicked(news: News) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(news.link)
+        startActivity(intent)
     }
 }

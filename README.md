@@ -4,3 +4,5 @@ To use this repo, you'll need to create a database with firebase, and copy the `
 
 Also, your database should be structured as the `test-data.json` file given. (You may import it as is, or you may use the same structure with your
 own data.)
+
+Don't forget to : use a realtime database AND set the .read rule to true.
