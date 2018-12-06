@@ -44,21 +44,6 @@ class ForumFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_forum, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener {
-                    val stringToShow :String?
-                    if (!it.isSuccessful){
-                        stringToShow = "failed"
-                    }else{
-                        stringToShow = it.result?.token
-                    }
-                    Toast.makeText(context, stringToShow, Toast.LENGTH_LONG).show()
-                    Log.d("token firebase", stringToShow)
-                }
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
