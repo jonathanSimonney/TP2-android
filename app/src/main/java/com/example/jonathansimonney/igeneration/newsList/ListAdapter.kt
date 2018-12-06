@@ -15,12 +15,11 @@ class ListAdapter// Provide a suitable constructor (depends on the kind of datas
     private val TITLE_VIEW_TYPE = 0
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder.itemViewType == DEFAULT_VIEW_TYPE){
-            val convertedHolder = holder as DefaultViewHolder
+        if (holder is DefaultViewHolder){
             val new = mDataset[position - 1]
-            convertedHolder.listText.text = new.title
+            holder.listText.text = new.title
 
-            convertedHolder.itemView.setOnClickListener { listener?.onNewsClicked(new) }
+            holder.itemView.setOnClickListener { listener?.onNewsClicked(new) }
 
         }
     }

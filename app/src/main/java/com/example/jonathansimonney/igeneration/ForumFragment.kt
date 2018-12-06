@@ -1,10 +1,16 @@
 package com.example.jonathansimonney.igeneration
 
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
+import kotlinx.android.synthetic.main.fragment_forum.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,8 +41,22 @@ class ForumFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_forum, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener {
+                    val stringToShow :String?
+                    if (!it.isSuccessful){
+                        stringToShow = "failed"
+                    }else{
+                        stringToShow = it.result?.token
+                    }
+                    Toast.makeText(context, stringToShow, Toast.LENGTH_LONG).show()
+                    Log.d("token firebase", stringToShow)
+                }
+        super.onViewCreated(view, savedInstanceState)
     }
 
     companion object {
