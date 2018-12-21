@@ -22,11 +22,6 @@
             android:name=".NewsDetailActivity"
             android:label="@string/title_activity_news_detail"
             android:theme="@style/AppTheme"></activity>
-        <service android:name=".fcmMessaging.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

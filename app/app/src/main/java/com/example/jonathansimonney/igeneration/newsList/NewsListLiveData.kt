@@ -2,50 +2,75 @@ package com.example.jonathansimonney.igeneration.newsList
 
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
-import android.view.View
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_news.*
-import java.text.SimpleDateFormat
-import java.util.*
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Retrofit
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.google.gson.GsonBuilder
+import com.google.gson.Gson
+
+
+
 
 class NewsListLiveData : MutableLiveData<List<News>>() {
     override fun onActive() {
-        val database = FirebaseDatabase.getInstance()
+        val gson = GsonBuilder()
+                .registerTypeAdapter(News::class.java, NyTimesDeserializer())
+                .create()
 
+        val api = Retrofit.Builder()
+                .baseUrl("https://api.nytimes.com/svc/mostpopular/v2/mostemailed/Technology/")
+                .addConverterFactory(
+                        GsonConverterFactory.create(gson))
+                .build()
+                .create(API::class.java)
 
-        val listener = object: ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val ret = ArrayList<News>()
+        api.getArticles().enqueue(object : Callback<List<News>> {
+            override fun onResponse(call: Call<List<News>>,
+                                    response: Response<List<News>>) {
+                val news = response.body()
 
-                for(news in dataSnapshot.children) {
-                    val title = news.child("title").getValue(String::class.java)
-                    val author = news.child("author").getValue(String::class.java)
-                    val date = news.child("date").getValue(String::class.java)
-                    val link = news.child("link").getValue(String::class.java)
-
-                    val cal = Calendar.getInstance()
-                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE)
-                    cal.time = sdf.parse(date)// all done
-
-                    val convertedDate = cal.timeInMillis
-
-                    if (title != null && author != null && date != null && link != null){
-                        ret.add(News(title, author, convertedDate, link))
-                    }
-                }
-
-                postValue(ret)
+                Log.d("jonathanNewsFound", news?.size.toString())
+                postValue(news)
             }
 
-            override fun onCancelled(dbErr: DatabaseError) {
-                Log.e("warning", "database error ${dbErr.message}")
+            override fun onFailure(call: Call<List<News>>,
+                          t: Throwable) {
+                t.printStackTrace()
             }
-        }
+        })
 
-        database.getReference("news").addValueEventListener(listener)
+//        val listener = object: ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                val ret = ArrayList<News>()
+//
+//                for(news in dataSnapshot.children) {
+//                    val title = news.child("title").getValue(String::class.java)
+//                    val author = news.child("author").getValue(String::class.java)
+//                    val date = news.child("date").getValue(String::class.java)
+//                    val link = news.child("link").getValue(String::class.java)
+//
+//                    val cal = Calendar.getInstance()
+//                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE)
+//                    cal.time = sdf.parse(date)// all done
+//
+//                    val convertedDate = cal.timeInMillis
+//
+//                    if (title != null && author != null && date != null && link != null){
+//                        ret.add(News(title, author, convertedDate, link))
+//                    }
+//                }
+//
+//                postValue(ret)
+//            }
+//
+//            override fun onCancelled(dbErr: DatabaseError) {
+//                Log.e("warning", "database error ${dbErr.message}")
+//            }
+//        }
+//
+//        database.getReference("news").addValueEventListener(listener)
     }
 
     override fun onInactive() {
