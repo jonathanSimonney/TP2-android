@@ -9,6 +9,13 @@ import com.google.firebase.messaging.RemoteMessage
 import android.app.NotificationManager
 import android.content.Context
 import com.example.jonathansimonney.igeneration.R
+import com.example.jonathansimonney.igeneration.MainActivity
+import android.content.Intent
+import android.app.PendingIntent
+
+
+
+
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -44,10 +51,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notificationTitle = message?.data?.get("title")
         val notificationContent = "Découvrez le dernier article écrit par " + message?.data?.get("author")
 
+        val notificationIntent = Intent(applicationContext, MainActivity::class.java)
+
+        val pIntent = PendingIntent.getActivity(applicationContext,
+                NEW_ARTICLE_NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+
         val newArticleNotification = NotificationCompat.Builder(applicationContext, "newArticleChannel")
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationContent)
                 .setSmallIcon(R.drawable.new_icon)
+                .setContentIntent(pIntent)
                 .build()
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
