@@ -9,8 +9,26 @@ exports.sendPushNews = functions.database.ref('/news/{pushId}')
 		// fcmToken =
 		// console.log(snapshot.ref.parent.child('test'));
 		// console.log("first");
+		let newArticleData = snapshot.val();
+
 		let ret = admin.database().ref(`/`).child("fcmToken").once('value').then((snapshot) => {
-			console.log(snapshot.val());
+			const fcmToken = snapshot.val();
+
+			const payload = {
+				notification: {
+					title: "test",
+					content: "testAgain"
+				}
+			};
+
+			admin.messaging().sendToDevice(fcmToken, payload).then((response) => {
+				console.log("Successfully sent message: ", response);
+				return true;
+			})
+			.catch((error) => {
+				console.log("Error sending message: ", error);
+				return false;
+			})
 		}).catch(error => console.log(error));
 		// console.log("second")
 		// console.log(snapshot.ref.parent.parent.parent);

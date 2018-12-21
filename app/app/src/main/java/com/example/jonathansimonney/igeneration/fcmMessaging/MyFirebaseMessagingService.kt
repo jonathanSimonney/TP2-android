@@ -36,5 +36,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage?) {
         // On récupère les données envoyées
         message?.data
+        Log.d("jonathanMessaging", message?.data.toString())
     }
 }
