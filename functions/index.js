@@ -16,11 +16,7 @@ exports.sendPushNews = functions.database.ref('/news/{pushId}')
 				const fcmToken = snapshot.val();
 
 				const payload = {
-					notification: {
-						title: "A new article!",
-						body: "Tap to discover our new article",
-						data: newArticleData.toString()
-					}
+					data: newArticleData
 				};
 
 				return admin.messaging().sendToDevice(fcmToken, payload).then((response) => {
