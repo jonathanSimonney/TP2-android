@@ -6,3 +6,16 @@ Also, your database should be structured as the `test-data.json` file given. (Yo
 own data.)
 
 Don't forget to : use a realtime database AND set the .read rule to true.
+
+the app is in the app folder, and the cloud function for firebase in the functions folder.
+
+to deploy the functions to the firebase space, run
+
+```
+firebase login
+firebase use your_firebase_app_project
+firebase deploy --only functions
+```
+
+you'll need to have the firebase cli tool installed, and the project should be linked with your
+firebase project for the database.
