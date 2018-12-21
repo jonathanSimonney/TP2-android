@@ -11,25 +11,28 @@ exports.sendPushNews = functions.database.ref('/news/{pushId}')
 		// console.log("first");
 		let newArticleData = snapshot.val();
 
-		let ret = admin.database().ref(`/`).child("fcmToken").once('value').then((snapshot) => {
-			const fcmToken = snapshot.val();
+		let ret = admin.database().ref(`/`).child("fcmToken").once('value')
+			.then((snapshot) => {
+				const fcmToken = snapshot.val();
 
-			const payload = {
-				notification: {
-					title: "test",
-					content: "testAgain"
-				}
-			};
+				const payload = {
+					notification: {
+						title: "A new article!",
+						body: "Tap to discover our new article",
+						data: newArticleData.toString()
+					}
+				};
 
-			admin.messaging().sendToDevice(fcmToken, payload).then((response) => {
-				console.log("Successfully sent message: ", response);
-				return true;
+				return admin.messaging().sendToDevice(fcmToken, payload).then((response) => {
+					console.log("Successfully sent message: ", response);
+					return true;
+				})
+				.catch((error) => {
+					console.log("Error sending message: ", error);
+					return false;
+				})
 			})
-			.catch((error) => {
-				console.log("Error sending message: ", error);
-				return false;
-			})
-		}).catch(error => console.log(error));
+			.catch(error => console.log(error));
 		// console.log("second")
 		// console.log(snapshot.ref.parent.parent.parent);
 		// console.log(snapshot.ref.parent.parent.parent.parent);
