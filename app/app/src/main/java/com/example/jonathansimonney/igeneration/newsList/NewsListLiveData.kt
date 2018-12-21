@@ -36,37 +36,6 @@ class NewsListLiveData : MutableLiveData<List<News>>() {
                 t.printStackTrace()
             }
         })
-
-//        val listener = object: ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                val ret = ArrayList<News>()
-//
-//                for(news in dataSnapshot.children) {
-//                    val title = news.child("title").getValue(String::class.java)
-//                    val author = news.child("author").getValue(String::class.java)
-//                    val date = news.child("date").getValue(String::class.java)
-//                    val link = news.child("link").getValue(String::class.java)
-//
-//                    val cal = Calendar.getInstance()
-//                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE)
-//                    cal.time = sdf.parse(date)// all done
-//
-//                    val convertedDate = cal.timeInMillis
-//
-//                    if (title != null && author != null && date != null && link != null){
-//                        ret.add(News(title, author, convertedDate, link))
-//                    }
-//                }
-//
-//                postValue(ret)
-//            }
-//
-//            override fun onCancelled(dbErr: DatabaseError) {
-//                Log.e("warning", "database error ${dbErr.message}")
-//            }
-//        }
-//
-//        database.getReference("news").addValueEventListener(listener)
     }
 
     override fun onInactive() {
