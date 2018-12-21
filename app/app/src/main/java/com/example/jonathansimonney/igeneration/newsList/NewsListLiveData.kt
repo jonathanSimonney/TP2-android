@@ -15,28 +15,24 @@ import com.google.gson.Gson
 
 class NewsListLiveData : MutableLiveData<List<News>>() {
     override fun onActive() {
-        val gson = GsonBuilder()
-                .registerTypeAdapter(News::class.java, NyTimesDeserializer())
-                .create()
-
         val api = Retrofit.Builder()
                 .baseUrl("https://api.nytimes.com/svc/mostpopular/v2/mostemailed/Technology/")
                 .addConverterFactory(
-                        GsonConverterFactory.create(gson))
+                        GsonConverterFactory.create())
                 .build()
                 .create(API::class.java)
 
-        api.getArticles().enqueue(object : Callback<List<News>> {
-            override fun onResponse(call: Call<List<News>>,
-                                    response: Response<List<News>>) {
+        api.getArticles().enqueue(object : Callback<ArrayNewsWrapper> {
+            override fun onResponse(call: Call<ArrayNewsWrapper>,
+                                    response: Response<ArrayNewsWrapper>) {
                 val news = response.body()
 
-                Log.d("jonathanNewsFound", news?.size.toString())
-                postValue(news)
+                postValue(news?.results)
             }
 
-            override fun onFailure(call: Call<List<News>>,
+            override fun onFailure(call: Call<ArrayNewsWrapper>,
                           t: Throwable) {
+                Log.d("jonathanNewsFound", t.message)
                 t.printStackTrace()
             }
         })
